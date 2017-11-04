@@ -3,7 +3,6 @@ import json
 import urllib
 import httplib
 import urllib2
-from pprint import pprint
 
 push_price = 180000 # minimum gold price before sending notification
 key = ''            # https://pushover.net key
