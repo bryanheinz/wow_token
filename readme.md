@@ -5,11 +5,12 @@ pulls wow token data from https://wowtokenprices.com and sends a push notificati
 Tested using Python v3.8
 
 - Python 3
+- Python 3 Requests module
+- [Blizzard API credentials](https://develop.battle.net/access/)
 - [Pushover](https://pushover.net) (for push notifications)
 
 ## Setup
-- Change the `push_price` variable to be your gold threshold. If WoW Tokens drop below this threshold you'll get a push notification.
-- Add your Pushover `user_key` and `app_token`
+- On first run you'll be prompted for the watch price, your Pushover user and app key, and Blizzard API client ID and client secret.
 - Setup a [LaunchAgent](https://www.launchd.info) (macOS), [Cron task](https://help.dreamhost.com/hc/en-us/articles/215767047-Creating-a-custom-Cron-Job) (Linux), or [Task](https://www.dummies.com/computers/pcs/how-to-open-windows-task-scheduler/) (Windows) to run the script
 
 ### macOS LaunchAgent
