@@ -9,13 +9,6 @@ token_dir = pathlib.Path(__file__).resolve().parent
 settings_fp = token_dir / 'settings.json'
 cache_path = token_dir / 'wow_at_cache.json'
 
-settings = settings_file()
-access_token = read_at_cache()
-
-headers = {
-    'Authorization':f'Bearer {access_token}'
-}
-
 
 def settings_file():
     '''This function reads the settings.json file or creates it if it doesn't
@@ -111,6 +104,14 @@ def main():
     gold = get_wow_token_price()
     if gold <= settings['push_price']:
         pushover("Buy - {:,}".format(gold))
+
+
+settings = settings_file()
+access_token = read_at_cache()
+
+headers = {
+    'Authorization':f'Bearer {access_token}'
+}
 
 
 if __name__ == '__main__':
