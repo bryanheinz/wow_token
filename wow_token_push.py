@@ -10,35 +10,42 @@ settings_fp = token_dir / 'settings.json'
 cache_path = token_dir / 'wow_at_cache.json'
 
 
-def settings_file():
+def get_settings():
     '''This function reads the settings.json file or creates it if it doesn't
     exist. Returns a settings dictionary.'''
     if settings_fp.exists():
         with open(settings_fp, 'rb') as file:
-            settings = json.loads(file.read())
+            try:
+                settings = json.loads(file.read())
+            except:
+                settings = create_settings_file()
     else:
-        from base64 import b64encode
-        print("Settings file not found, creating one...")
-        push_price = int(input('Watch price > ').replace(',', ''))
-        user_key = input('Pushover user key > ')
-        app_token = input('Pushover app key > ')
-        bliz_id = input('Blizzard API Client ID > ')
-        bliz_secret = input('Blizzard API Client Secret > ')
-        bliz_access_key = b64encode(f"{bliz_id}:{bliz_secret}".encode())
-        settings = {
-            'push_price'      : push_price,
-            'push_user_key'   : user_key,
-            'push_app_token'  : app_token,
-            'bliz_access_key' : bliz_access_key
-        }
-        with open(settings_fp, 'w') as file:
-            file.write(json.dumps(settings, indent=4))
+        settings = create_settings_file()
+    return(settings)
+
+def create_settings_file():
+    from base64 import b64encode
+    print("Settings file not found, creating one...")
+    push_price = int(input('Watch price > ').replace(',', ''))
+    user_key = input('Pushover user key > ')
+    app_token = input('Pushover app key > ')
+    bliz_id = input('Blizzard API Client ID > ')
+    bliz_secret = input('Blizzard API Client Secret > ')
+    bliz_access_key = b64encode(f"{bliz_id}:{bliz_secret}".encode()).decode()
+    settings = {
+        'push_price'      : push_price,
+        'push_user_key'   : user_key,
+        'push_app_token'  : app_token,
+        'bliz_access_key' : bliz_access_key
+    }
+    with open(settings_fp, 'w') as file:
+        file.write(json.dumps(settings, indent=4))
     return(settings)
 
 def get_new_at():
     '''This function gets a new access token and caches it.'''
     access_key = settings['bliz_access_key']
-    response = requests.get(
+    response = requests.post(
         url='https://us.battle.net/oauth/token',
         params={
             'grant_type': 'client_credentials',
@@ -106,7 +113,7 @@ def main():
         pushover("Buy - {:,}".format(gold))
 
 
-settings = settings_file()
+settings = get_settings()
 access_token = read_at_cache()
 
 headers = {
