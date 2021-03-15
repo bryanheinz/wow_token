@@ -1,5 +1,5 @@
 # wow_token
-pulls wow token data from https://wowtokenprices.com and sends a push notification using [Pushover](https://pushover.net) if the current gold price is below your specified threshold.
+pulls wow token data from [Blizzard's API](https://develop.battle.net) and sends a push notification using [Pushover](https://pushover.net) if the current gold price is below your specified threshold.
 
 ## Requirements
 Tested using Python v3.8
